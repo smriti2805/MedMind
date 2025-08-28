@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block title %} Result - MedMind {% endblock %}
+{% block content%}
+
+<div class="hero-content">
+  <h1>{{result.question | upper }}</h1>
+  <p>{{result.response}}</p>
+</div>
+
+{% endblock %}

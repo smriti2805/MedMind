@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block title %} Home - MedMind {% endblock %}
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
+{% endblock %}
+
+{% block hero_content%}
+<div class="hero-content">
+  <div class="heading flex flex-col justify-center">
+    <h1 class="text-7xl font-bold">Your personal Health Assistant</h1>
+    <h2 class="text-3xl font-bold">Your Health, Our Priority</h2>
+    <p class="font-bold text-[#333]">Decode your symptoms, understand lab reports & get mental health insights.
+      Connect with the right doctor at the right time.</p>
+  </div>
+  <div class="slideshow flex flex-col justify-center">
+    {% include "components/carousel.html" %}
+  </div>
+
+
+{% endblock %}
+
+{% block content%}
+<!-- Services Section -->
+<section class="services">
+  <h2 class="section-title">Our Services</h2>
+  <p>Key Features of AI health Assistant</p>
+  <div class="card-container">
+
+    {% for card in homepage_cards %}
+    <div class="service-card">
+      <h3>{{card.icon}} {{card.title}}</h3>
+      <p>{{card.description}}</p>
+      <ul>
+        {% for feature in card.features %}
+        <li>{{feature}}</li>
+        {% endfor %}
+      </ul>
+    </div>
+    {% endfor %}
+
+  </div>
+</section>
+{% endblock %}

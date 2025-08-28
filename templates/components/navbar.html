@@ -1,0 +1,14 @@
+<!-- Navbar -->
+<nav class="navbar">
+    <div class="logo">MedMind</div>
+    <input type="checkbox" id="menu-toggle">
+    <label for="menu-toggle" class="menu-icon">&#9776;</label>
+    
+    <ul class="nav-links">
+        <li><a href="{{ url_for('home') }}" class="{% if request.endpoint=='home' %}active{% endif %}">Home</a></li>
+        <li><a href="{{ url_for('about') }}" class="{% if request.endpoint=='about' %}active{% endif %}">About</a></li>
+        <li><a href="{{ url_for('services') }}" class="{% if request.endpoint=='services' %}active{% endif %}">Services</a></li>
+        <li><a href="{{ url_for('contact') }}" class="{% if request.endpoint=='contact' %}active{% endif %}">Contact</a></li>
+        <li><a href="tel:+911234567890" class="phone-btn">📞 Call</a></li>
+    </ul>
+</nav>

@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %} Contact - MedMind {% endblock %}
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/contact.css') }}">
+{% endblock %}
+{% block content%}
+<div class="hero-content">
+  <h1>Contact Us</h1>
+  <p>Email: support@medmind.com</p>
+  <p>Phone: +91 1234567890</p>
+
+  <!-- Contact Form -->
+  <form class="contact-form">
+    <input type="text" placeholder="Your Name" required>
+    <input type="email" placeholder="Your Email" required>
+    <textarea placeholder="Your Message" required></textarea>
+    <button type="submit">Send Message</button>
+  </form>
+</div>
+{% endblock %}
