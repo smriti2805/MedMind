@@ -1,9 +1,9 @@
 /* Reset */
-* {
+/* * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-}
+} */
 
 /* Navbar */
 .navbar {
@@ -11,7 +11,7 @@
   justify-content: space-between;
   align-items: center;
   background: #1e1e2f;
-  padding: 20px 40px;
+  padding: 10px 40px;
   position: sticky;
   top: 0;
   z-index: 1000;
@@ -94,7 +94,7 @@
     right: 20px;
     background: #1e1e2f;
     width: 200px;
-    padding: 15px;
+    padding: 10px;
     border-radius: 10px;
   }
   #menu-toggle:checked ~ .nav-links {
@@ -115,8 +115,6 @@ html { scroll-behavior: smooth; }
   align-items: center;
   justify-content: center;
   text-align: left;
-  padding: 20px;
   position: relative;
-  margin-top: 60px;
    /* to offset navbar height */
 }

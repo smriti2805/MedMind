@@ -29,16 +29,16 @@ homepage_cards = [
             "✔ Mood tracking"
         ]
     },
-    {
-        "icon": "🩺",
-        "title": "Find the Right Doctor<",
-        "description": "Get matched with the best specialist for your condition. No more trial and error with healthcare providers.",
-        "features": [
-            "✔ Specialist matching",
-            "✔ Seamless appointment booking",
-            "✔ Pre-shared health history"
-        ]
-    },
+    # {
+    #     "icon": "🩺",
+    #     "title": "Find the Right Doctor<",
+    #     "description": "Get matched with the best specialist for your condition. No more trial and error with healthcare providers.",
+    #     "features": [
+    #         "✔ Specialist matching",
+    #         "✔ Seamless appointment booking",
+    #         "✔ Pre-shared health history"
+    #     ]
+    # },
     {
         "icon": "🛡️",
         "title": "Preventive Health",

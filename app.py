@@ -13,17 +13,41 @@ csrf = CSRFProtect(app)
 @app.route("/")
 def home():
     form = ChatBoxForm()
-    
+
+    # Folder with your images
     image_folder = os.path.join(app.static_folder, "carousel-images")
-    slides = []
-    for filename in os.listdir(image_folder):
-        if filename.lower().endswith((".png", ".jpg", ".jpeg", ".gif", ".webp")):
-            slides.append(f"carousel-images/{filename}")
-    slides.sort()
-    
+
+    # Manually defined captions (order matters)
+    captions = [
+        "Mental Health Support",
+        "Health Tips & Reminders",
+        "Do Exercise Regularly",
+        "Keep a Balanced Diet",
+        "Get Adequate Sleep",
+        "Avoid Smoking & Alcohol",
+        "Discover potential skin issues with our AI-Powered Skin Checker",
+    ]
+
+    # Collect only image files and sort them
+    image_files = sorted([
+        f for f in os.listdir(image_folder)
+        if f.lower().endswith((".png", ".jpg", ".jpeg", ".gif", ".webp"))
+    ])
+
+    # Pair images with captions using dictionary
+    slides = [
+        {"file": f"carousel-images/{file}", "caption": captions[i] if i < len(captions) else ""}
+        for i, file in enumerate(image_files)
+    ]
+
     return render_template(
-        "home.html", form=form, homepage_cards=homepage_cards, slides=slides
+        "home.html",
+        form=form,
+        homepage_cards=homepage_cards,
+        slides=slides
     )
+
+
 
 
 @app.route("/about")

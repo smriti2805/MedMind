@@ -1,12 +1,16 @@
-<div class="relative w-full max-w-4xl mx-auto overflow-hidden rounded-lg">
-  <div class="carousel relative w-full h-96">
+<div class="relative w-full max-w-4xl mx-auto overflow-hidden rounded-lg min-h-[80vh]">
+  <div class="carousel relative w-full">
     {% for slide in slides %}
     <div class="carousel-item absolute inset-0 hidden">
-      <img src="{{ url_for('static', filename=slide) }}" 
+      <img src="{{ url_for('static', filename=slide.file) }}" 
            alt="Slide {{ loop.index }}" 
-           class="w-full h-96 object-fill rounded-lg">
-      <div class="absolute bottom-4 left-0 right-0 text-center text-white bg-black bg-opacity-40 py-2">
-        {{ slide.caption }}
+           class="w-full object-cover rounded-lg min-h-[80vh]">
+      <div class="absolute inset-0 flex flex-col items-center justify-end text-white text-3xl font-bold min-h-[80vh]">
+        <div class=" bg-black/50 m-5">
+          {{ slide.caption }}
+        </div>
+          <div class="h-[10%]">
+        </div>
       </div>
     </div>
     {% endfor %}
@@ -19,18 +23,26 @@
     {% endfor %}
   </div>
 </div>
+
+
 <style>
 .carousel-item {
   display: none;
   animation: fade 1s ease-in-out;
 }
+
+@keyframes fade {
+  from { opacity: 1; }
+  to { opacity: 1; }
+}
 </style>
+
 <script>
 document.addEventListener("DOMContentLoaded", function () {
   let slides = document.querySelectorAll(".carousel-item");
   let dots = document.querySelectorAll(".dot");
   let currentIndex = 0;
-  let intervalTime = 2000; // 10 seconds per image
+  let intervalTime = 3000; // 10 seconds per image
 
   function showSlide(index) {
     slides.forEach((slide, i) => {
@@ -50,3 +62,4 @@ document.addEventListener("DOMContentLoaded", function () {
   setInterval(nextSlide, intervalTime);
 });
 </script>
+

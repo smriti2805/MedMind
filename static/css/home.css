@@ -1,19 +1,13 @@
 
 .hero-content {
-  min-height: 75vh;
-  display: flex;
-  flex-direction: row;
-  gap: 20px;
+  min-height: 80vh;
   padding: 20px;
   width: 100%;
 }
 
-.heading{
-  width: 40%;
-}
-
 .slideshow{
-  width: 60%;
+  width: 100%;
+  height: 100%;
 }
 
 .services {
@@ -59,16 +53,10 @@
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
 }
 
-.service-card .icon {
-  font-size: 2.5rem;
-  margin-bottom: 15px;
-}
-
 .service-card h3 {
   font-size: 1.3rem;
   margin-bottom: 10px;
   color: #1e3a8a;
-  /* blue shade */
 }
 
 .service-card p {
@@ -87,16 +75,4 @@
   font-size: 0.9rem;
   margin-bottom: 8px;
   color: #444;
-}
-
-@media only screen and (max-width: 850px) {
-  .hero-content {
-  flex-direction: column;
-  }
-  .heading{
-    width: 100%;
-  }
-  .slideshow{
-    width: 100%;
-  }
 }
