@@ -49,15 +49,6 @@ async function sendMessage() {
 
     // Determine the bot's fixed response
     let botResponse = "I'm sorry, I can only answer fixed questions like 'hello', 'good morning', or 'how are you?'.";
-
-    if (userMessage.includes('hello') || userMessage.includes('hi')) {
-        botResponse = "Hello! How can I assist you with your health today?";
-    } else if (userMessage.includes('good morning') || userMessage.includes('morning')) {
-        botResponse = "Good morning! I hope you have a healthy day.";
-    } else if (userMessage.includes('how are you') || userMessage.includes('how r u')) {
-        botResponse = "As an AI, I don't have feelings, but I'm ready to help you with any health-related questions you might have!";
-    }
-
     botResponse = await queryModel(userMessage)
 
     // Display the bot's response after a small delay
@@ -65,12 +56,11 @@ async function sendMessage() {
         addMessage(botResponse, 'bot');
     }, 500);
 }
-
 function addMessage(text, sender) {
     const messageDiv = document.createElement('div');
 
     // Use Tailwind classes for styling messages
-    messageDiv.classList.add('message', 'text-left', 'flex', 'flex-row', 'gap-1');
+    messageDiv.classList.add('message', 'text-left', 'flex', 'flex-row', 'gap-1', 'bg-black/20', 'rounded-lg', 'p-2', 'my-1');
     const avatar = document.createElement('div');
     avatar.classList.add('size-6');
 
@@ -102,5 +92,13 @@ async function queryModel(prompt) {
         return data;
     } catch (err) {
         console.error("Fetch failed:", err);
+
+        if (userMessage.includes('hello') || userMessage.includes('hi')) {
+            botResponse = "Hello! How can I assist you with your health today?";
+        } else if (userMessage.includes('good morning') || userMessage.includes('morning')) {
+            botResponse = "Good morning! I hope you have a healthy day.";
+        } else if (userMessage.includes('how are you') || userMessage.includes('how r u')) {
+            botResponse = "As an AI, I don't have feelings, but I'm ready to help you with any health-related questions you might have!";
+        }
     }
 }
