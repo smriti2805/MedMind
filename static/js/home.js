@@ -47,13 +47,11 @@ async function sendMessage() {
     addMessage(userMessage, 'user');
     chatInput.value = '';
 
-    // Determine the bot's fixed response
-    let botResponse = "I'm sorry, I can only answer fixed questions like 'hello', 'good morning', or 'how are you?'.";
-    botResponse = await queryModel(userMessage)
+    let botResponse = await queryModel(userMessage)
 
     // Display the bot's response after a small delay
     setTimeout(() => {
-        addMessage(botResponse, 'bot');
+        addMessage(botResponse.output, 'bot');
     }, 500);
 }
 function addMessage(text, sender) {
@@ -82,23 +80,29 @@ function addMessage(text, sender) {
 }
 async function queryModel(prompt) {
     try {
-        const response = await fetch("http://localhost:8000/api/v1/chat", {
+        const response = await fetch("http://127.0.0.1:8000/chat/invoke", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ input: prompt })
+            body: JSON.stringify({
+                "input": prompt,
+                "config": {},
+                "kwargs": {}
+            })
         });
         if (!response.ok) { throw new Error(`Server error: ${response.status}`); }
         const data = await response.json();
         return data;
     } catch (err) {
         console.error("Fetch failed:", err);
-
-        if (userMessage.includes('hello') || userMessage.includes('hi')) {
+        // Determine the bot's fixed response
+        let botResponse = "I'm sorry, I can only answer fixed questions like 'hello', 'good morning', or 'how are you?'.";
+        if (prompt.includes('hello') || prompt.includes('hi')) {
             botResponse = "Hello! How can I assist you with your health today?";
-        } else if (userMessage.includes('good morning') || userMessage.includes('morning')) {
+        } else if (prompt.includes('good morning') || prompt.includes('morning')) {
             botResponse = "Good morning! I hope you have a healthy day.";
-        } else if (userMessage.includes('how are you') || userMessage.includes('how r u')) {
+        } else if (prompt.includes('how are you') || prompt.includes('how r u')) {
             botResponse = "As an AI, I don't have feelings, but I'm ready to help you with any health-related questions you might have!";
         }
+        return botResponse
     }
 }
