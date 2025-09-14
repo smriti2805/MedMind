@@ -1,12 +1,79 @@
 {% extends "base.html" %}
-{% block content%}
-<div class="hero-content flex flex-col justify-center items-center text-center min-h-[80vh]">
-  <h1>Our Services</h1>
-  <ul>
-    <li>Disease Prediction</li>
-    <li>Doctor Recommendation</li>
-    <li>Medicine Reminders</li>
-    <li>Emergency Assistance</li>
-  </ul>
+{% block title %} Services - MedMind {% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='services.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-8">
+  <div class="flex flex-col md:flex-row items-center mb-12">
+    <div class="md:w-1/2 text-center md:text-left mb-6 md:mb-0">
+      <h1 class="text-4xl font-extrabold text-gray-800 mb-4">Your Health, Our Priority.</h1>
+      <p class="text-lg text-gray-600 mb-6">
+        Intelligent healthcare solutions for a healthier future.
+      </p>
+      <a href="{{ url_for('chat') }}" class="bg-green-500 text-white px-6 py-2 rounded hover:bg-green-600">Get
+        Started</a>
+    </div>
+    <div class="md:w-1/2 flex justify-center pt-6">
+      <img src="{{ url_for('static', filename='images/med9.png') }}" alt="Healthcare Illustration"
+        class="rounded-lg shadow-md max-w-full h-auto">
+    </div>
+  </div>
+
+  <!-- Our Services Section -->
+  <h2 class="text-2xl font-semibold mb-6">Our Services</h2>
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+
+    {% for service_card in service_cards %}
+    <div
+      class="bg-gradient-to-r from-{{service_card.color}}-200 to-{{service_card.color}}-300 p-6 rounded-lg shadow-md transform transition-transform duration-300 hover:scale-105 hover:shadow-lg">
+      <div class="flex items-center mb-4">
+        <img src="{{ url_for('static', filename='icons/disease-prediction.svg') }}" alt="Icon" class="w-10 h-10 mr-4">
+        <h3 class="text-xl font-bold">{{service_card.title}}</h3>
+      </div>
+      <p class="text-gray-700">{{service_card.description}}</p>
+    </div>
+    {% endfor %}
+
+
+  </div>
+
+
+
+
 </div>
+</section>
+
+
+
+
+
+</div>
+
+
+</div>
+
+<!-- User Testimonials Section -->
+<h2 class="text-2xl font-semibold mt-16 mb-6">What Our Users Say</h2>
+<div class="flex flex-col md:flex-row justify-center items-center space-y-6 md:space-y-0 md:space-x-8">
+
+  <div class="text-center">
+
+    <h4 class="font-semibold mt-4">Noslor Lorth</h4>
+    <p class="text-gray-600">"Great tool to manage my health easily!"</p>
+  </div>
+
+  <div class="text-center">
+    <h4 class="font-semibold mt-4">Nostess Smpth</h4>
+    <p class="text-gray-600">"Helps me track my prescriptions and find doctors fast."</p>
+  </div>
+
+</div>
+
+</div>
+{% endblock %}
+{% block footer %}
+{% include 'components/footer.html' %}
 {% endblock %}

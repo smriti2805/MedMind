@@ -1,7 +1,7 @@
 import os
 from flask import Flask, render_template
 from flask_wtf import CSRFProtect
-from static_data import homepage_cards
+from static_data import homepage_cards, service_cards
 from forms import ChatBoxForm
 from utils import get_response
 
@@ -29,25 +29,26 @@ def home():
     ]
 
     # Collect only image files and sort them
-    image_files = sorted([
-        f for f in os.listdir(image_folder)
-        if f.lower().endswith((".png", ".jpg", ".jpeg", ".gif", ".webp"))
-    ])
+    image_files = sorted(
+        [
+            f
+            for f in os.listdir(image_folder)
+            if f.lower().endswith((".png", ".jpg", ".jpeg", ".gif", ".webp"))
+        ]
+    )
 
     # Pair images with captions using dictionary
     slides = [
-        {"file": f"carousel-images/{file}", "caption": captions[i] if i < len(captions) else ""}
+        {
+            "file": f"carousel-images/{file}",
+            "caption": captions[i] if i < len(captions) else "",
+        }
         for i, file in enumerate(image_files)
     ]
 
     return render_template(
-        "home.html",
-        form=form,
-        homepage_cards=homepage_cards,
-        slides=slides
+        "home.html", form=form, homepage_cards=homepage_cards, slides=slides
     )
-
-
 
 
 @app.route("/about")
@@ -57,12 +58,17 @@ def about():
 
 @app.route("/services")
 def services():
-    return render_template("services.html")
+    return render_template("services.html", service_cards=service_cards)
 
 
 @app.route("/contact")
 def contact():
     return render_template("contact.html")
+
+
+@app.route("/chat")
+def chat():
+    return render_template("chatbotPage.html")
 
 
 @app.route("/result", methods=["POST"])

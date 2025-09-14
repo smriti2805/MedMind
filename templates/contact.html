@@ -1,22 +1,54 @@
 {% extends "base.html" %}
 {% block title %} Contact - MedMind {% endblock %}
-{% block head %}
-<link rel="stylesheet" href="{{ url_for('static', filename='css/contact.css') }}">
-{% endblock %}
-{% block content%}
-<div class="hero-content flex flex-col justify-center items-center text-center min-h-[80vh]">
-  <div>
-    <h1>Contact Us</h1>
-    <p>Email: support@medmind.com</p>
-    <p>Phone: +91 1234567890</p>
+
+{% block content %}
+<div class="container mx-auto px-6 py-12">
+  
+  <!-- Heading -->
+<div class="grid md:grid-cols-1 items-center gap-4">
+  <h1 class="text-4xl font-extrabold text-gray-800">We’re here to help.</h1>
+  <p class="text-lg text-gray-600 mt-2">Reach out to us anytime.</p>
+</div>
+
+  <!-- Contact Section -->
+  <div class="grid md:grid-cols-2 gap-12 items-center">
     
-    <!-- Contact Form -->
-    <form class="contact-form">
-      <input type="text" placeholder="Your Name" required>
-      <input type="email" placeholder="Your Email" required>
-      <textarea placeholder="Your Message" required></textarea>
-      <button type="submit">Send Message</button>
-    </form>
+    <!-- Left side image -->
+    <div class="flex justify-center">
+      <img src="{{ url_for('static', filename='images/10.png') }}" 
+           alt="Support Illustration" 
+           class="w-64 h-64 object-contain">
+    </div>
+
+    <!-- Right side form -->
+    <div>
+      <div class="text-center md:text-left mb-6">
+        <h3 class="text-xl font-semibold">Contact Us</h3>
+        <p class="text-gray-600">
+          Email: <span class="font-medium">support@medmind.com</span>
+        </p>
+        <p class="text-gray-600">
+          Phone: <span class="font-medium">+91 1234567890</span>
+        </p>
+      </div>
+
+      <!-- Contact Form -->
+      <form action="{{ url_for('contact') }}" method="POST" class="space-y-4">
+        <input type="text" name="name" placeholder="Your Name"
+          class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-400 focus:outline-none">
+
+        <input type="email" name="email" placeholder="Your Email"
+          class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-400 focus:outline-none">
+
+        <textarea name="message" placeholder="Your Message" rows="4"
+          class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-400 focus:outline-none"></textarea>
+
+        <button type="submit"
+          class="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-lg font-semibold">
+          Send Message
+        </button>
+      </form>
+    </div>
   </div>
 </div>
 {% endblock %}

@@ -6,8 +6,8 @@ homepage_cards = [
         "features": [
             "✔ 24/7 symptom analysis",
             "✔ Multi-modal input (text, voice, images)",
-            "✔ Personalized health insights"
-        ]
+            "✔ Personalized health insights",
+        ],
     },
     {
         "icon": "📄",
@@ -16,8 +16,8 @@ homepage_cards = [
         "features": [
             "✔ Simple explanations",
             "✔ Health recommendations",
-            "✔ Easy report uploads"
-        ]
+            "✔ Easy report uploads",
+        ],
     },
     {
         "icon": "💙",
@@ -26,8 +26,8 @@ homepage_cards = [
         "features": [
             "✔ Confidential conversations",
             "✔ Coping strategies",
-            "✔ Mood tracking"
-        ]
+            "✔ Mood tracking",
+        ],
     },
     # {
     #     "icon": "🩺",
@@ -46,8 +46,8 @@ homepage_cards = [
         "features": [
             "✔ Early warning system",
             "✔ Health risk scoring",
-            "✔ Personalized prevention plans"
-        ]
+            "✔ Personalized prevention plans",
+        ],
     },
     {
         "icon": "🗄️",
@@ -56,7 +56,30 @@ homepage_cards = [
         "features": [
             "✔ Secure record sharing",
             "✔ Comprehensive health history",
-            "✔ Patient-controlled access"
-        ]
+            "✔ Patient-controlled access",
+        ],
     },
+]
+
+
+service_cards = [
+    {
+        "icon": "icons/disease-prediction.svg",
+        "title": "Disease Prediction",
+        "description": "Predict diseases based on your symptoms with advanced AI algorithms.",
+        "color": "green",
+    },
+    {
+        "icon": "icons/medicine-reminders.svg",
+        "title": "Preventive Health",
+        "description": "AI helps you act before minor issues turn into chronic diseases. From sick care to true health care.",
+        "color": "teal",
+    },
+    {
+        "icon": "icons/medicine-reminders.svg",
+        "title": "Medicine Reminders",
+        "description": "Never forget your medication with automated reminders at the right time.",
+        "color": "blue",
+    },
+    # Add more services as needed
 ]

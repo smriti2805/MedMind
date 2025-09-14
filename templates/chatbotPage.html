@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %} Contact - MedMind {% endblock %}
+
+{% block content %}
+<style>
+    #chatbot-messages{
+        min-height: 64vh;
+    }
+</style>
+<div class="p-2 px-20">
+    {% include 'components/chatbot.html' %}
+</div>
+
+<script src="{{ url_for('static', filename='js/chatbot.js') }}"></script>
+{% endblock %}

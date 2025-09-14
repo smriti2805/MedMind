@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+{% import "components/icons.html" as icons %}
 
 <head>
     <meta charset="UTF-8">
@@ -10,16 +11,17 @@
 </head>
 
 <body class="overflow-auto">
+    <script>
+        const user_avatar = `{{ icons.user_avatar() }}`;
+        const bot_avatar = `{{ icons.bot_avatar() }}`;
+    </script>
     {% include "components/navbar.html" %}
-
-    <!-- Hero Section with Chatbot -->
     <div class="hero">
         {% block hero_content%}{% endblock %}
     </div>
-        {% block content%}{% endblock %}
-
+    {% block content%}{% endblock %}
     {% include "components/footer.html" %}
-<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 </body>
 
 </html>
