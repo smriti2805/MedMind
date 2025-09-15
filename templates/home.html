@@ -41,7 +41,8 @@
         class="hidden fixed bottom-20 right-5 w-80 h-96 bg-white border border-gray-300 rounded-xl shadow-xl z-40 flex flex-col overflow-hidden p-1 resize">
         {% include "components/chatbot.html" %}
     </div>
-    <script src="{{ url_for('static', filename='js/chatbot.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/home.js') }}"></script>
 </section>
+{% endblock %}
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/home.js') }}"></script>
 {% endblock %}
