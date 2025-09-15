@@ -64,19 +64,19 @@ homepage_cards = [
 
 service_cards = [
     {
-        "icon": "icons/disease-prediction.svg",
+        "icon": "magnifier",
         "title": "Disease Prediction",
         "description": "Predict diseases based on your symptoms with advanced AI algorithms.",
         "color": "green",
     },
     {
-        "icon": "icons/medicine-reminders.svg",
+        "icon": "shield",
         "title": "Preventive Health",
         "description": "AI helps you act before minor issues turn into chronic diseases. From sick care to true health care.",
         "color": "teal",
     },
     {
-        "icon": "icons/medicine-reminders.svg",
+        "icon": "pill_bottle",
         "title": "Medicine Reminders",
         "description": "Never forget your medication with automated reminders at the right time.",
         "color": "blue",

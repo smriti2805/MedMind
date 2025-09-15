@@ -41,7 +41,7 @@ function addMessage(text, sender) {
     }
 
     const msgText = document.createElement('div');
-    msgText.textContent = text;
+    msgText.innerHTML    = text;
     messageDiv.appendChild(avatar);
     messageDiv.appendChild(msgText);
     chatMessages.appendChild(messageDiv);
