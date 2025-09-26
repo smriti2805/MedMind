@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block title %} {{ blog.title }} - MedMind {% endblock %}
+
+{% block content %}
+<div class="container mx-auto px-6 py-12 max-w-4xl">
+
+    <!-- Blog Title and Info -->
+    <h1 class="text-4xl font-extrabold text-gray-800 mb-4">{{ blog.title }}</h1>
+    <p class="text-gray-500 text-sm mb-6">By {{ blog.author }} • {{ blog.date }}</p>
+
+    <!-- Main Blog Image -->
+    <img src="{{ url_for('static', filename=blog.image) }}" 
+         alt="{{ blog.title }}" 
+         class="w-full rounded-lg shadow-md mb-6">
+
+    <!-- Blog Content -->
+    <div class="prose prose-lg text-gray-700">
+        {{ blog.content | safe }}
+    </div>
+
+    <!-- Back Button -->
+    <div class="mt-8">
+        <a href="{{ url_for('blogs') }}" class="text-blue-600 hover:underline">← Back to Blogs</a>
+    </div>
+</div>
+{% endblock %}

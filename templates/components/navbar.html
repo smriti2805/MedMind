@@ -6,7 +6,8 @@
     
     <ul class="nav-links">
         <li><a href="{{ url_for('home') }}" class="{% if request.endpoint=='home' %}active{% endif %}">Home</a></li>
-        <li><a href="{{ url_for('chat') }}" class="{% if request.endpoint=='chat' %}active{% endif %}">Health Assistant</a></li>
+        <li><a href="{{ url_for('chat') }}" class="{% if request.endpoint=='chat' %}active{% endif %}">ChatBot</a></li>
+        <li><a href="{{ url_for('blogs') }}" class="{% if request.endpoint=='chat' %}active{% endif %}">Blogs</a></li>
         <li><a href="{{ url_for('services') }}" class="{% if request.endpoint=='services' %}active{% endif %}">Services</a></li>
         <li><a href="{{ url_for('about') }}" class="{% if request.endpoint=='about' %}active{% endif %}">About</a></li>
         <li><a href="{{ url_for('contact') }}" class="{% if request.endpoint=='contact' %}active{% endif %}">Contact</a></li>

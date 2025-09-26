@@ -4,11 +4,12 @@ from flask_wtf import CSRFProtect
 from static_data import homepage_cards, service_cards
 from forms import ChatBoxForm
 from utils import get_response
+from database_data import load_blogs_from_json
 
 app = Flask(__name__)
 app.secret_key = "your_secret_key"
 csrf = CSRFProtect(app)
-
+blog_posts = load_blogs_from_json()
 
 @app.route("/")
 def home():
@@ -50,6 +51,16 @@ def home():
         "home.html", form=form, homepage_cards=homepage_cards, slides=slides
     )
 
+@app.route("/blogs")
+def blogs():
+    return render_template("blogs.html", blog_posts=blog_posts)
+
+@app.route("/blog/<int:blog_id>")
+def blog_detail(blog_id):
+    blog = next((b for b in blog_posts if b["id"] == blog_id), None)
+    if blog:
+        return render_template("blog_detail.html", blog=blog)
+    return "Blog not found", 404
 
 @app.route("/about")
 def about():
