@@ -22,13 +22,23 @@
             </div>
         </div>
 </div>
-<div class="flex p-2 border-t border-gray-300">
+<div class="flex p-2 border-t border-gray-300 items-center">
+    <!-- Image Upload Button -->
+    <label for="chatbot-image" class="cursor-pointer w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center mr-2">
+        📷
+    </label>
+    <input type="file" id="chatbot-image" accept="image/*" class="hidden">
+
+    <!-- Text Input -->
     <input type="text" id="chatbot-input" placeholder="Type a message..."
         class="flex-grow border border-gray-400 rounded-full px-4 py-2 mr-2 outline-none">
+
+    <!-- Send Button -->
     <button id="chatbot-send-button" class="w-10 h-10 rounded-full bg-blue-600 text-white text-base cursor-pointer p-1">
         {{ icons.icon("send_button") }}
     </button>
 </div>
+
 <style>
     .typing-indicator {
         display: flex;

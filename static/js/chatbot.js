@@ -1,6 +1,7 @@
 const chatInput = document.getElementById('chatbot-input');
 const chatSendBtn = document.getElementById('chatbot-send-button');
 const chatMessages = document.getElementById('chatbot-messages');
+const chatBotImage = document.getElementById('chatbot-image');
 
 // Handle sending a message when the send button is clicked or Enter is pressed
 chatSendBtn.addEventListener('click', sendMessage);
@@ -32,11 +33,22 @@ function typeEffect(el, html, speed = 100) {
 }
 async function sendMessage() {
     const userMessage = chatInput.value.trim();
-    if (userMessage === '') return; // Don't send empty messages
+    const imageFile = chatBotImage.files[0]; 
+
+    if (userMessage === '' && !imageFile) return; // Don't send empty requests
+
+    if (userMessage) {
+        addMessage(userMessage, 'user');
+    }
+    if (imageFile) {
+        addMessage(`<img src="${URL.createObjectURL(imageFile)}" class="w-32 h-auto rounded-lg"/>`, 'user');
+    }
+
 
     // Display the user's message
     addMessage(userMessage, 'user');
     chatInput.value = '';
+    chatBotImage.value = '';
 
     document.getElementById("typing-indicator").classList.toggle("hidden");
     let botResponse = await queryModel(userMessage)
@@ -72,7 +84,12 @@ function addMessage(text, sender) {
     // Scroll to the latest message
     chatMessages.scrollTop = chatMessages.scrollHeight;
 }
-async function queryModel(prompt) {
+async function queryModel(prompt, imageFile=null) {
+
+    let formData = new FormData();
+    if (userMessage) formData.append("message", prompt);
+    if (imageFile) formData.append("image", imageFile);
+
     try {
         const response = await fetch("http://127.0.0.1:8000/chat/invoke", {
             method: "POST",
