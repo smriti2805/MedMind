@@ -53,17 +53,17 @@ homepage_cards = [
         ],
         "link": "home",
     },
-    {
-        "icon": "🗄️",
-        "title": "Personalized Health Record",
-        "description": "AI builds your comprehensive health profile so doctors have complete context for better treatment.",
-        "features": [
-            "✔ Secure record sharing",
-            "✔ Comprehensive health history",
-            "✔ Patient-controlled access",
-        ],
-        "link": "home",
-    },
+    # {
+    #     "icon": "🗄️",
+    #     "title": "Personalized Health Record",
+    #     "description": "AI builds your comprehensive health profile so doctors have complete context for better treatment.",
+    #     "features": [
+    #         "✔ Secure record sharing",
+    #         "✔ Comprehensive health history",
+    #         "✔ Patient-controlled access",
+    #     ],
+    #     "link": "home",
+    # },
 ]
 
 
