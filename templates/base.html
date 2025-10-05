@@ -4,17 +4,43 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>{%block title%}MedMind{%endblock%}</title>
+
     <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='images/favicon.ico') }}">
+
+    <script src="https://cdn.jsdelivr.net/npm/marked/lib/marked.umd.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dompurify/dist/purify.min.js"></script>
+
     {% block head %}{% endblock %}
+
+    <style type="text/tailwindcss">
+        @theme {
+            --animation-keyframes-dot-pulse: {
+                '0%, 80%, 100%': {
+                    transform: scale(0.6),
+                    opacity: '0.6',
+                },
+                '40%': {
+                    transform: 'scale(1)',
+                    opacity: '1',
+                },
+            };
+            --animation-timing-function-in-out: ease-in-out;
+        }
+
+        @layer utilities {
+            .animate-dot-pulse {
+                animation: dot-pulse 1.4s var(--animation-timing-function-in-out) infinite;
+            }
+        }
+    </style>
 </head>
 
 <body class="overflow-auto">
-    <script>
-        const user_avatar = `{{ icons.icon("user_avatar") }}`;
-        const bot_avatar = `{{ icons.icon("bot_avatar") }}`;
-    </script>
     {% include "components/navbar.html" %}
     <div class="hero">
         {% block hero_content%}{% endblock %}

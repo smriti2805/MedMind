@@ -1,12 +1,10 @@
 {% extends "base.html" %}
-{% block title %} Chatbot - MedMind {% endblock %}
-{% block head %}
-<link rel="stylesheet" href="{{ url_for('static', filename='css/chatbot.css') }}">
-{% endblock %}
+{% block title %} Symptom Checker - MedMind {% endblock %}
+
 {% block content %}
 {% import "components/chatbot.html" as chatbot %}
 <div class="p-2 px-2 max-w-7xl mx-auto">
-    {{ chatbot.chatbot(height="70vh") }}
+    {{ chatbot.chatbot(height="70vh", name="MedMind Symptom Checker", first_message="Hello! Please describe your symptoms.", api_url="symptom_checker_proxy") }}
 </div>
 {% endblock %}
 {% block scripts %}

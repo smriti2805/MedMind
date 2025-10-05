@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% import "components/chatbot.html" as chatbot %}
 {% block title %} Home - MedMind {% endblock %}
 {% block head %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
@@ -15,20 +16,21 @@
 {% block content%}
 <!-- Services Section -->
 <section class="services">
-    <h2 class="section-title">Our Services</h2>
     <p>Key Features of AI health Assistant</p>
     <div class="card-container">
 
         {% for card in homepage_cards %}
-        <div class="service-card">
-            <h3>{{card.icon}} {{card.title}}</h3>
-            <p>{{card.description}}</p>
-            <ul>
-                {% for feature in card.features %}
-                <li>{{feature}}</li>
-                {% endfor %}
-            </ul>
-        </div>
+        <a href="{{ url_for(card.link) }}" class="no-underline">
+            <div class="service-card">
+                <h3>{{card.icon}} {{card.title}}</h3>
+                <p>{{card.description}}</p>
+                <ul>
+                    {% for feature in card.features %}
+                    <li>{{feature}}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </a>
         {% endfor %}
 
     </div>
@@ -38,8 +40,8 @@
         {{ icons.icon("support_assistant") }}
     </button>
     <div id="chatbot-container"
-        class="hidden fixed bottom-20 right-5 w-80 h-96 bg-white border border-gray-300 rounded-xl shadow-xl z-40 flex flex-col overflow-hidden p-1 resize">
-        {% include "components/chatbot.html" %}
+        class="hidden fixed bottom-20 right-5 w-80 h-105 bg-white border border-gray-300 rounded-xl shadow-xl z-40 flex flex-col overflow-hidden p-1 resize">
+        {{ chatbot.chatbot(height="12vh") }}
     </div>
 </section>
 {% endblock %}

@@ -2,12 +2,13 @@ homepage_cards = [
     {
         "icon": "⚕️",
         "title": "AI Symptom Checker",
-        "description": "Share your symptoms via text, voice, or images and get AI-backed insights instantly.",
+        "description": "Share your symptoms via text, or images and get AI-backed insights instantly.",
         "features": [
             "✔ 24/7 symptom analysis",
             "✔ Multi-modal input (text, voice, images)",
             "✔ Personalized health insights",
         ],
+        "link": "symptom_checker",
     },
     {
         "icon": "📄",
@@ -18,6 +19,7 @@ homepage_cards = [
             "✔ Health recommendations",
             "✔ Easy report uploads",
         ],
+        "link": "lab_report",
     },
     {
         "icon": "💙",
@@ -28,6 +30,7 @@ homepage_cards = [
             "✔ Coping strategies",
             "✔ Mood tracking",
         ],
+        "link": "chat",
     },
     # {
     #     "icon": "🩺",
@@ -48,6 +51,7 @@ homepage_cards = [
             "✔ Health risk scoring",
             "✔ Personalized prevention plans",
         ],
+        "link": "home",
     },
     {
         "icon": "🗄️",
@@ -58,6 +62,7 @@ homepage_cards = [
             "✔ Comprehensive health history",
             "✔ Patient-controlled access",
         ],
+        "link": "home",
     },
 ]
 
@@ -68,18 +73,21 @@ service_cards = [
         "title": "Disease Prediction",
         "description": "Predict diseases based on your symptoms with advanced AI algorithms.",
         "color": "green",
+        "link": "symptom_checker",
     },
     {
         "icon": "shield",
         "title": "Preventive Health",
         "description": "AI helps you act before minor issues turn into chronic diseases. From sick care to true health care.",
         "color": "teal",
+        "link": "home",
     },
     {
         "icon": "pill_bottle",
         "title": "Medicine Reminders",
         "description": "Never forget your medication with automated reminders at the right time.",
         "color": "blue",
+        "link": "home",
     },
-    # Add more services as needed
+    # home Add more services as needed
 ]

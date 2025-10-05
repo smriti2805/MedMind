@@ -1,13 +1,14 @@
 import base64
 import os
-from flask import Flask, render_template, Response, jsonify, request
 import requests
+from flask import Flask, Response, jsonify, render_template, request
 from flask_wtf import CSRFProtect
-from static_data import homepage_cards, service_cards
-from forms import ChatBoxForm
-from utils import get_response
+
+from config import CHAT_STREAM_URL, SYMPTOM_CHECKER_STREAM_URL, LAB_REPORT_ANALYSIS_STREAM_URL
 from database_data import load_blogs_from_json
-from config import LANGSERVE_STREAM_URL
+from forms import ChatBoxForm
+from static_data import homepage_cards, service_cards
+from utils import get_response
 
 app = Flask(__name__)
 app.secret_key = "your_secret_key"
@@ -19,10 +20,8 @@ blog_posts = load_blogs_from_json()
 def home():
     form = ChatBoxForm()
 
-    # Folder with your images
-    image_folder = os.path.join(app.static_folder, "carousel-images")
+    carousel_image_folder = os.path.join(app.static_folder, "carousel-images")
 
-    # Manually defined captions (order matters)
     captions = [
         "Mental Health Support",
         "Health Tips & Reminders",
@@ -33,10 +32,8 @@ def home():
         "Discover potential skin issues with our AI-Powered Skin Checker",
     ]
 
-    # Collect only image files and sort them
-    image_files = sorted([f for f in os.listdir(image_folder) if f.lower().endswith((".png", ".jpg", ".jpeg", ".gif", ".webp"))])
+    image_files = sorted([f for f in os.listdir(carousel_image_folder) if f.lower().endswith((".png", ".jpg", ".jpeg", ".gif", ".webp"))])
 
-    # Pair images with captions using dictionary
     slides = [
         {
             "file": f"carousel-images/{file}",
@@ -57,7 +54,7 @@ def blogs():
 def blog_detail(blog_id):
     blog = next((b for b in blog_posts if b["id"] == blog_id), None)
     if blog:
-        return render_template("blog_detail.html", blog=blog)
+        return render_template("blogDetail.html", blog=blog)
     return "Blog not found", 404
 
 
@@ -90,10 +87,23 @@ def result():
     return render_template("home.html", form=form, homepage_cards=homepage_cards)
 
 
-@app.route("/api/stream_chat", methods=["POST"])
-def stream_chat_proxy():
+def generate(api_url, payload):
     try:
-        user_query = request.form.get("query", "")
+        with requests.post(api_url, json=payload, stream=True, headers={"Content-Type": "application/json"}) as response:
+            response.raise_for_status()
+            for chunk in response.iter_content(chunk_size=None, decode_unicode=True):
+                yield chunk
+    except requests.exceptions.RequestException as e:
+        print(f"Error connecting to LangServe: {e}")
+        yield f"event: error\r\ndata: ❌ Error: Could not connect to the model. Try Again later.\r\nerror: {e}\r\n\r\n"
+    except Exception as e:
+        print(f"An unexpected error occurred: {e}")
+        yield f"event: error\r\ndata: ❌ Error: An internal server error occurred.\r\nerror: {e}\r\n\r\n"
+
+
+def streamer(api_url):
+    try:
+        user_query = request.form.get("query")
         image_file = request.files.get("image_file")
 
         image_data_uri = None
@@ -102,29 +112,64 @@ def stream_chat_proxy():
             base64_encoded_data = base64.b64encode(binary_data).decode("utf-8")
             mime_type = image_file.mimetype or "image/jpeg"
             image_data_uri = f"data:{mime_type};base64,{base64_encoded_data}"
-
         payload = {"input": {"query": user_query, "image_url": image_data_uri}, "config": {}, "kwargs": {}}
-
     except Exception as e:
         print(f"❌ Error during file parsing/Base64 conversion: {e}")
         return jsonify({"error": "Failed to process image/data."}), 400
 
-    def generate():
-        try:
-            with requests.post(LANGSERVE_STREAM_URL, json=payload, stream=True, headers={"Content-Type": "application/json"}) as response:
-                print(response.status_code, response.reason)
-                response.raise_for_status()
-                for chunk in response.iter_content(chunk_size=None, decode_unicode=True):
-                    yield chunk
-        except requests.exceptions.RequestException as e:
-            print(f"Error connecting to LangServe: {e}")
-            yield f"❌ Error: Could not connect to the model ({e})"
-        except Exception as e:
-            print(f"An unexpected error occurred: {e}")
-            yield "❌ Error: An internal server error occurred."
+    return Response(generate(api_url, payload), mimetype="text/event-stream")
 
-    return Response(generate(), mimetype="text/event-stream")
+
+@app.route("/symptom-checker")
+def symptom_checker():
+    return render_template("symptomChecker.html")
+
+
+@app.route("/lab-report-analysis")
+def lab_report():
+    return render_template("labReportAnalysis.html")
+
+
+@app.route("/api/stream_chat", methods=["POST"])
+def stream_chat_proxy():
+    return streamer(api_url=CHAT_STREAM_URL)
+
+
+@app.route("/api/symptom_checker", methods=["POST"])
+def symptom_checker_proxy():
+    return streamer(api_url=SYMPTOM_CHECKER_STREAM_URL)
+
+
+@app.route("/api/analyze_reports", methods=["POST"])
+def analyze_reports_proxy():
+    try:
+        uploaded_files = request.files.getlist("reports")
+        if not uploaded_files:
+            return jsonify({"error": "No files were uploaded."}), 400
+        print(f"Received {len(uploaded_files)} files:")
+        images = []
+        for f in uploaded_files:
+            binary_data = f.read()
+            base64_encoded_data = base64.b64encode(binary_data).decode("utf-8")
+            mime_type = f.mimetype or "image/jpeg"
+            image_data_uri = f"data:{mime_type};base64,{base64_encoded_data}"
+            images.append(image_data_uri)
+        payload = {"input": {"images": images}, "config": {}, "kwargs": {}}
+    except Exception as e:
+        print(f"❌ Error during file parsing/Base64 conversion: {e}")
+        return jsonify({"error": "Failed to process image/data."}), 400
+    return  Response(generate(LAB_REPORT_ANALYSIS_STREAM_URL, payload), mimetype="text/event-stream")
+
+
+@app.errorhandler(400)
+def handle_bad_request(e):
+    return f"❌ Bad Request intercepted: {str(e)}", 400
+
+
+@app.errorhandler(404)
+def handle_not_found(e):
+    return render_template("404NotFound.html"), 404
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=True, port=5000, threaded=True)
