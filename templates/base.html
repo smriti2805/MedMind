@@ -17,27 +17,6 @@
 
     {% block head %}{% endblock %}
 
-    <style type="text/tailwindcss">
-        @theme {
-            --animation-keyframes-dot-pulse: {
-                '0%, 80%, 100%': {
-                    transform: scale(0.6),
-                    opacity: '0.6',
-                },
-                '40%': {
-                    transform: 'scale(1)',
-                    opacity: '1',
-                },
-            };
-            --animation-timing-function-in-out: ease-in-out;
-        }
-
-        @layer utilities {
-            .animate-dot-pulse {
-                animation: dot-pulse 1.4s var(--animation-timing-function-in-out) infinite;
-            }
-        }
-    </style>
 </head>
 
 <body class="overflow-auto">
@@ -47,7 +26,8 @@
     </div>
     {% block content %}{% endblock %}
     {% include "components/footer.html" %}
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,container-queries"></script>
+    <script src="{{url_for('static', filename='js/tailwind_config.js')}}"></script>
     {% block scripts %}{% endblock %}
 </body>
 

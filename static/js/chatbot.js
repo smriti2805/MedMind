@@ -1,10 +1,19 @@
+import { streamAndRenderResponse, escapeHtml } from "./utils.js";
+
 document.addEventListener("DOMContentLoaded", () => {
-	marked.use({ breaks: true, gfm: true, smartypants: true });
 	const chatInput = document.getElementById("chatbot-input");
 	const chatSendBtn = document.getElementById("chatbot-send-button");
 	const chatMessages = document.getElementById("chatbot-messages");
 	const chatImageInput = document.getElementById("chatbot-image-input");
 	const previewContainer = document.getElementById("image-preview-container");
+
+	if (window.marked) {
+		marked.setOptions({
+			breaks: true,
+			gfm: true,
+			smartypants: true,
+		});
+	}
 
 	chatSendBtn.addEventListener("click", sendMessage);
 	chatInput.addEventListener("keypress", (e) => {
@@ -31,108 +40,6 @@ document.addEventListener("DOMContentLoaded", () => {
 		}
 	});
 
-	function escapeHtml(unsafe) {
-		return unsafe.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
-	}
-
-	function parseSseEvents(sseChunk) {
-		const events = [];
-		const lines = sseChunk.split("\n");
-
-		let eventType = "data";
-		let dataBuffer = [];
-		let errorBuffer = [];
-
-		for (const line of lines) {
-			if (line.startsWith("event:")) {
-				eventType = line.substring(7).trim();
-			} else if (line.startsWith("data:")) {
-				dataBuffer.push(line.substring(6).trim());
-			} else if (line.startsWith("error:")) {
-				errorBuffer.push(line.substring(7).trim());
-			} else if (line.trim() === "" && dataBuffer.length > 0) {
-				const rawData = dataBuffer.join("\n");
-				let parsedData = rawData;
-				try {
-					parsedData = JSON.parse(rawData);
-				} catch (error) {
-					console.warn("Failed to parse SSE data as JSON");
-				}
-				events.push({ event: eventType, data: parsedData, error: errorBuffer.join("\n") || null });
-				eventType = "data";
-				dataBuffer = [];
-			}
-		}
-		return events;
-	}
-
-	async function streamQueryModel(userMessage, imageFile = null) {
-		const formData = new FormData();
-		const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute("content");
-
-		formData.append("csrf_token", csrfToken);
-		formData.append("query", userMessage);
-		if (imageFile) formData.append("image_file", imageFile);
-
-		const botMessageElements = addMessage("", "bot");
-		let fullResponseText = "";
-
-		try {
-			const response = await fetch(api_url, { method: "POST", body: formData });
-			if (!response.ok) throw new Error(`Stream failed: ${response.status}`);
-			const reader = response.body.getReader();
-			const decoder = new TextDecoder();
-
-			while (true) {
-				const { done, value } = await reader.read();
-				if (done) break;
-				const rawChunk = decoder.decode(value);
-				const parsedEvents = parseSseEvents(rawChunk);
-				for (const event of parsedEvents) {
-					switch (event.event) {
-						case "data":
-							if (event.data && event.data.content) {
-								fullResponseText += event.data.content;
-								if (botMessageElements.typingIndicator) botMessageElements.typingIndicator.remove();
-								parsedHtml = marked.parse(escapeHtml(fullResponseText).replace(/\n/g, "<br>"));
-								console.log(parsedHtml);
-								botMessageElements.textSpan.innerHTML = DOMPurify.sanitize(parsedHtml, {
-									ADD_TAGS: ["table", "thead", "tbody", "tr", "th", "td"],
-								});
-							}
-							break;
-						case "end":
-							console.log("Stream ended.");
-							break;
-						case "metadata":
-							console.log("Stream Started.");
-							console.log("Stream Metadata:", event.data);
-							break;
-						case "error":
-							console.error("Stream Error:", event.data);
-							fullResponseText += event.data;
-							if (botMessageElements.typingIndicator) botMessageElements.typingIndicator.remove();
-							parsedHtml = marked.parse(escapeHtml(fullResponseText).replace(/\n/g, "<br>"));
-							botMessageElements.textSpan.innerHTML = DOMPurify.sanitize(parsedHtml, {
-								ADD_TAGS: ["table", "thead", "tbody", "tr", "th", "td"],
-							});
-							return;
-					}
-					chatMessages.scrollTop = chatMessages.scrollHeight;
-				}
-			}
-		} catch (error) {
-			botMessageElements.textSpan.innerHTML = `❌ Error: Could not connect to the model. Try again.`;
-			console.error("Streaming failed:", error);
-		} finally {
-			const finalHtml = marked.parse(fullResponseText);
-			const cleanHtml = DOMPurify.sanitize(finalHtml, { ADD_TAGS: ["table", "thead", "tbody", "tr", "th", "td"] });
-			botMessageElements.textSpan.innerHTML = cleanHtml;
-
-			if (botMessageElements.typingIndicator) botMessageElements.typingIndicator.remove();
-		}
-	}
-
 	async function sendMessage() {
 		const userMessage = chatInput.value.trim();
 		if (userMessage === "") return;
@@ -146,6 +53,53 @@ document.addEventListener("DOMContentLoaded", () => {
 		await streamQueryModel(userMessage, imageFile);
 	}
 
+	async function streamQueryModel(userMessage, imageFile = null) {
+		const formData = new FormData();
+		const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute("content");
+		formData.append("csrf_token", csrfToken);
+		formData.append("query", userMessage);
+		if (imageFile) formData.append("image_file", imageFile);
+
+		const botMessageElements = addMessage("", "bot");
+		const chatMessages = document.getElementById("chatbot-messages");
+
+		await streamAndRenderResponse({
+			apiUrl: api_url,
+			formData: formData,
+
+			onStart: () => {
+				// This is where you can show the initial typing indicator
+			},
+
+			onChunk: (fullResponseText) => {
+				if (botMessageElements.typingIndicator) botMessageElements.typingIndicator.remove();
+				botMessageElements.textSpan.innerHTML = escapeHtml(fullResponseText).replace(/\n/g, "<br>");
+				chatMessages.scrollTop = chatMessages.scrollHeight;
+			},
+
+			onFinish: (fullResponseText) => {
+				if (window.marked && window.DOMPurify) {
+					const finalHtml = marked.parse(fullResponseText);
+					const cleanHtml = DOMPurify.sanitize(finalHtml, { ADD_TAGS: ["table", "thead", "tbody", "tr", "th", "td"] });
+					botMessageElements.textSpan.innerHTML = cleanHtml;
+				} else {
+					botMessageElements.textSpan.textContent = fullResponseText;
+				}
+				chatMessages.scrollTop = chatMessages.scrollHeight;
+			},
+
+			onError: (error) => {
+				botMessageElements.textSpan.innerHTML = `❌ Error: ${escapeHtml(error.message)}`;
+				chatMessages.scrollTop = chatMessages.scrollHeight;
+			},
+
+			onFinally: () => {
+				if (botMessageElements.typingIndicator) botMessageElements.typingIndicator.remove();
+				chatMessages.scrollTop = chatMessages.scrollHeight;
+			},
+		});
+	}
+	
 	function addMessage(text, sender, imageFile = null) {
 		// Create the main message bubble
 		const messageDiv = document.createElement("div");

@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block title %}Medicine Reminders - MedMind{% endblock %}
+
+{% block content %}
+<div class="bg-gray-50 flex items-center justify-center min-h-screen py-12 px-4">
+    <div class="max-w-md w-full bg-white p-8 rounded-2xl shadow-lg">
+
+        <div class="text-center mb-8">
+            <h1 class="text-3xl font-bold text-gray-800">Set a Medicine Reminder</h1>
+            <p class="text-gray-500 mt-2">Enter your medicine details below.</p>
+        </div>
+
+        <form id="reminder-form" class="space-y-6">
+            <div>
+                <label for="medicine_name" class="block text-sm font-medium text-gray-700">Medicine Name</label>
+                <div class="mt-1">
+                    <input type="text" id="medicine_name" name="medicine_name" required
+                           class="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                </div>
+            </div>
+
+            <div>
+                <label for="notification_time" class="block text-sm font-medium text-gray-700">Time (24-hour format)</label>
+                <div class="mt-1">
+                    <input type="time" id="notification_time" name="notification_time" required
+                           class="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                </div>
+            </div>
+
+            <button type="submit" class="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors">
+                Set Reminder
+            </button>
+        </form>
+        
+        <p id="form-status" class="text-center mt-4 font-medium"></p>
+
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+    <script src="{{ url_for('static', filename='js/reminders.js') }}"></script>
+{% endblock %}

@@ -30,7 +30,7 @@ homepage_cards = [
             "✔ Coping strategies",
             "✔ Mood tracking",
         ],
-        "link": "chat",
+        "link": "mental_health",
     },
     # {
     #     "icon": "🩺",
@@ -87,7 +87,7 @@ service_cards = [
         "title": "Medicine Reminders",
         "description": "Never forget your medication with automated reminders at the right time.",
         "color": "blue",
-        "link": "home",
+        "link": "reminders",
     },
     # home Add more services as needed
 ]

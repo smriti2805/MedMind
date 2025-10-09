@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Browser Notification Demo</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-color: #f0f2f5;
+        }
+        button {
+            padding: 12px 24px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: white;
+            background-color: #007bff;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Click the button to get a notification!</h1>
+    <button id="notify-btn">Send Notification 🔔</button>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+          console.log("document loaded")
+            const notifyButton = document.getElementById('notify-btn');
+
+            // This is the main function that sends the notification
+            function sendNotification() {
+              console.log("button clicked")
+                // 1. Check if the browser supports notifications
+                if (!("Notification" in window)) {
+                    alert("This browser does not support desktop notification");
+                    return;
+                }
+console.log("browser support notification")
+                // 2. Check the current permission status
+                if (Notification.permission === "granted") {
+                  console.log("notification granted")
+                    // If permission is already granted, create the notification
+                    new Notification("MedMind Reminder!", {
+                        body: "This is your scheduled notification.",
+                        icon: "/static/favicon.ico" // Optional: path to an icon
+                    });
+                } else if (Notification.permission !== "denied") {
+                  console.log("notification not granted")
+                    // If permission hasn't been asked for or has been dismissed, ask for it
+                    Notification.requestPermission().then(function (permission) {
+                        // If the user accepts, create the notification
+                        if (permission === "granted") {
+                          console.log("notification allowed")
+                            new Notification("Thanks for allowing notifications!");
+                        }
+                    });
+                }
+                else{
+                console.log("notification denied trying to seek permission")
+                  Notification.requestPermission().then(function (permission) {
+                        // If the user accepts, create the notification
+                        if (permission === "granted") {
+                          console.log("notification allowed")
+                            new Notification("Thanks for allowing notifications!");
+                        }
+                    });
+                }
+                console.log("notification denied confirmed")
+                // If permission is "denied", we can't do anything.
+            }
+
+            // 3. Add the click event listener to the button
+            notifyButton.addEventListener('click', sendNotification);
+        });
+    </script>
+
+</body>
+</html>

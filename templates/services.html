@@ -27,6 +27,7 @@
   <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
 
     {% for service_card in service_cards %}
+        <a href="{{ url_for(service_card.link) }}" class="no-underline">
     <div
       class="bg-gradient-to-r from-{{service_card.color}}-200 to-{{service_card.color}}-300 p-6 rounded-lg shadow-md transform transition-transform duration-300 hover:scale-105 hover:shadow-lg">
       <div class="flex items-center mb-4 gap-2">
@@ -35,6 +36,7 @@
       </div>
       <p class="text-gray-700">{{service_card.description}}</p>
     </div>
+        </a>
     {% endfor %}
 
 
