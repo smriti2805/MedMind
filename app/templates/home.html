@@ -1,0 +1,48 @@
+{% extends "base.html" %} {% import "components/chatbot.html" as chatbot %} {% block title %} Home - MedMind {% endblock %} {% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}" />
+{% endblock %} {% block hero_content%}
+<div class="hero-content">
+	<div class="slideshow flex flex-col justify-center items-center">{% include "components/carousel.html" %}</div>
+</div>
+{% endblock %} {% block content%}
+<!-- Services Section -->
+<section class="services">
+	<p>Key Features of AI health Assistant</p>
+	<div class="card-container">
+		{% for card in homepage_cards %}
+		<a href="{{ url_for(card.link) }}" class="no-underline">
+			<div class="service-card">
+				<div class="flex items-center mb-4 gap-2">
+					{{icons.icon(card.icon, "32px")}}
+					<h3 class="text-xl font-bold">{{card.title}}</h3>
+				</div>
+				<p>{{card.description}}</p>
+				<ul>
+					{% for feature in card.features %}
+					<li>{{feature}}</li>
+					{% endfor %}
+				</ul>
+			</div>
+		</a>
+		{% endfor %}
+	</div>
+	<div id="chatbot-backdrop" class="hidden fixed inset-0 bg-black/50 z-30"></div>
+	<button
+		id="chatbot-toggle-button"
+		class="fixed bottom-5 right-5 w-16 h-16 rounded-full bg-blue-600 text-white text-2xl border-none cursor-pointer shadow-lg z-50 focus:outline-none">
+		{{ icons.icon("support_assistant") }}
+	</button>
+	<div
+		id="chatbot-container"
+		class="hidden fixed bottom-20 right-5 w-80 h-105 bg-white border border-gray-300 rounded-xl shadow-xl z-40 flex flex-col overflow-hidden p-1 resize">
+		{{ chatbot.chatbot(height="12vh") }}
+	</div>
+</section>
+{% endblock %} {% block scripts %}
+<script>
+	const user_avatar = `{{ icons.icon("user_avatar") }}`;
+	const bot_avatar = `{{ icons.icon("bot_avatar") }}`;
+</script>
+<script type="module" src="{{ url_for('static', filename='js/chatbot.js') }}"></script>
+<script src="{{ url_for('static', filename='js/home.js') }}"></script>
+{% endblock %}

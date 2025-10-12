@@ -1,8 +1,6 @@
-def main():
-    print("Hello from medmind!")
-    from app import app
-    app.run(debug=True, threaded=True, port=5000, host="0.0.0.0")
+from app import create_app
 
+app = create_app()
 
 if __name__ == "__main__":
-    main()
+    app.run(debug=True, port=5000, threaded=True, host="0.0.0.0")

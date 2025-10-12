@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %} Chatbot - MedMind {% endblock %}
+{% block content %}
+{% import "components/chatbot.html" as chatbot %}
+<div class="p-2 px-2 max-w-7xl mx-auto">
+    {{ chatbot.chatbot(height="70vh") }}
+</div>
+{% endblock %}
+{% block scripts %}
+<script>
+    const user_avatar = `{{ icons.icon("user_avatar") }}`;
+    const bot_avatar = `{{ icons.icon("bot_avatar") }}`;
+</script>
+<script type="module" src="{{ url_for('static', filename='js/chatbot.js') }}"></script>
+{% endblock %}

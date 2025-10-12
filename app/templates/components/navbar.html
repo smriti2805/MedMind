@@ -1,0 +1,86 @@
+
+<nav class="sticky top-0 z-50 flex items-center justify-between bg-dark-blue px-4 py-2.5 md:px-10">
+	<a href="{{ url_for('main.home') }}" class="flex flex-shrink-0 items-center gap-2">
+		<img src="{{url_for('static', filename='svg/medmind_logo.min.svg')}}" class="h-10" />
+		<span class="text-3xl font-bold text-white">Med<span class="text-green-400">M</span>ind</span>
+	</a>
+	<div class="hidden md:flex md:items-center md:gap-8">
+		<ul class="flex items-center gap-8">
+			{% if current_user.is_authenticated %}
+			<li><a href="{{ url_for('auth.dashboard') }}"
+					class="relative text-lg font-medium text-white transition after:absolute after:-bottom-1 after:left-0 after:h-0.5 after:w-0 after:bg-cyan-300 after:transition-all after:duration-300 hover:after:w-full {% if request.endpoint == 'auth.dashboard' %}after:w-full{% endif %}">Dashboard</a>
+			</li>
+			{% else %}
+			<li><a href="{{ url_for('main.home') }}"
+					class="relative text-lg font-medium text-white transition after:absolute after:-bottom-1 after:left-0 after:h-0.5 after:w-0 after:bg-cyan-300 after:transition-all after:duration-300 hover:after:w-full {% if request.endpoint == 'main.home' %}after:w-full{% endif %}">Home</a>
+			</li>
+			{% endif %}
+			<li><a href="{{ url_for('main.chat') }}"
+					class="relative text-lg font-medium text-white transition after:absolute after:-bottom-1 after:left-0 after:h-0.5 after:w-0 after:bg-cyan-300 after:transition-all after:duration-300 hover:after:w-full {% if request.endpoint == 'main.chat' %}after:w-full{% endif %}">ChatBot</a>
+			</li>
+			<li><a href="{{ url_for('main.services') }}"
+					class="relative text-lg font-medium text-white transition after:absolute after:-bottom-1 after:left-0 after:h-0.5 after:w-0 after:bg-cyan-300 after:transition-all after:duration-300 hover:after:w-full {% if request.endpoint == 'main.services' %}after:w-full{% endif %}">Services</a>
+			</li>
+
+			<li class="relative">
+				<button id="more-menu-button" class="flex items-center gap-1 text-lg font-medium text-white">
+					More
+					<svg class="h-4 w-4 transition-transform" id="more-menu-arrow" fill="none" stroke="currentColor"
+						viewBox="0 0 24 24">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+					</svg>
+				</button>
+				<ul id="more-menu" class="absolute right-0 z-20 mt-2 hidden w-48 rounded-md py-1 bg-dark-blue text-white shadow-lg">
+					<li><a href="{{ url_for('main.blogs') }}"
+							class="block px-4 py-2 text-sm hover:text-gray-700 hover:bg-gray-100">Blogs</a></li>
+					<li><a href="{{ url_for('main.about') }}"
+							class="block px-4 py-2 text-sm hover:text-gray-700 hover:bg-gray-100">About</a></li>
+					<li><a href="{{ url_for('main.contact') }}"
+							class="block px-4 py-2 text-sm hover:text-gray-700 hover:bg-gray-100">Contact</a></li>
+				</ul>
+			</li>
+		</ul>
+
+		<div class="relative">
+			{% if current_user.is_authenticated %}
+			<button id="profile-menu-button"
+				class="flex h-10 w-10 items-center justify-center rounded-full bg-gray-200 ring-2 ring-white transition-all hover:ring-blue-300 overflow-hidden">
+				<img
+					src="{{ current_user.get_profile_photo() }}"
+					alt="Profile Picture" class="h-full w-full object-cover">
+			</button>
+			<ul id="profile-menu" class="absolute right-0 z-20 mt-2 hidden w-48 rounded-md bg-dark-blue text-white py-1 shadow-lg">
+				<li><a href="{{ url_for('auth.profile') }}" class="block px-4 py-2 text-sm hover:text-gray-700 hover:bg-gray-100">View
+						Profile</a></li>
+				<li><a href="{{ url_for('auth.logout') }}"
+						class="block px-4 py-2 text-sm hover:text-gray-700 hover:bg-gray-100">Logout</a></li>
+			</ul>
+			{% else %}
+			<a href="{{ url_for('auth.login') }}"
+				class="rounded-md bg-blue-600 px-4 py-2 font-semibold text-white transition-colors hover:bg-blue-700">Login</a>
+			{% endif %}
+		</div>
+	</div>
+
+	<label for="menu-toggle" class="cursor-pointer text-3xl text-white md:hidden">&#9776;</label>
+	<input type="checkbox" id="menu-toggle" class="hidden peer">
+
+	<ul
+		class="absolute right-5 top-16 hidden w-48 list-none flex-col gap-4 rounded-lg bg-dark-blue p-4 peer-checked:flex md:hidden">
+		{% for endpoint, text in [('auth.dashboard' if current_user.is_authenticated else 'main.home', 'Home' if not
+		current_user.is_authenticated else 'Dashboard'), ('main.chat', 'ChatBot'), ('main.blogs', 'Blogs'),
+		('main.services', 'Services'), ('main.about', 'About'), ('main.contact', 'Contact')] %}
+		<li><a href="{{ url_for(endpoint) }}" class="relative text-xl font-medium text-white">{{ text }}</a></li>
+		{% endfor %}
+
+		{% if current_user.is_authenticated %}
+		<li><a href="{{ url_for('auth.profile') }}" class="relative text-xl font-medium text-white">Profile</a></li>
+		<li><a href="{{ url_for('auth.logout') }}" class="relative text-xl font-medium text-white">Logout</a></li>
+		{% else %}
+		<li><a href="{{ url_for('auth.login') }}"
+				class="block rounded-md bg-blue-600 px-4 py-2 text-center font-semibold text-white">Login</a></li>
+		{% endif %}
+	</ul>
+</nav>
+
+<script src="{{url_for('static',filename='js/navbar.js')}}"></script>

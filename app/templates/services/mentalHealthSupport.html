@@ -1,0 +1,12 @@
+{% extends "base.html" %} {% block title %} Mental Health Support - MedMind {% endblock %} {% block content %} {% import "components/chatbot.html" as chatbot %}
+<div class="p-2 px-2 max-w-7xl mx-auto">
+	{{ chatbot.chatbot(height="70vh", name="MedMind Mental Health Support", first_message="Welcome. I'm so glad you're here. This is a quiet, non-judgmental space just for
+	you. It's okay to feel whatever you're feeling right now. I'm here to listen and support you. What's on your mind today?", api_url="api.mental_health_proxy") }}
+</div>
+{% endblock %} {% block scripts %}
+<script>
+	const user_avatar = `{{ icons.icon("user_avatar") }}`;
+	const bot_avatar = `{{ icons.icon("bot_avatar") }}`;
+</script>
+<script type="module" src="{{ url_for('static', filename='js/chatbot.js') }}"></script>
+{% endblock %}

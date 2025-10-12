@@ -1,0 +1,34 @@
+<footer class="text-center bg-[#1e1e2f] w-full text-white">
+	<div class="flex flex-col items-center px-[7%] text-left py-4">
+		<div class="flex flex-col md:flex-row gap-5 justify-around w-full">
+			
+      <div class="flex items-center justify-center text-3xl font-bold">
+				<a href="{{ url_for('main.home') }}" class="flex items-center gap-2">
+					<img src="{{url_for('static', filename='svg/medmind_logo.min.svg')}}" class="h-[7vh]" />
+					<span class="text-3xl font-bold text-white">Med<span class="text-green-400">M</span>ind</span>
+				</a>
+			</div>
+
+			<div>
+				<h2 class="text-xl">Quick Links</h2>
+				<ol>
+					<li><a href="{{ url_for('auth.dashboard') }}">Dashboard</a></li>
+					<li><a href="{{ url_for('main.about') }}">About</a></li>
+					<li><a href="{{ url_for('main.contact') }}">Contact</a></li>
+				</ol>
+			</div>
+
+			<div>
+				<h2 class="text-xl">Contact Info</h2>
+				<p>Email: support@medmind.com</p>
+				<p>Phone: +910123456789</p>
+			</div>
+		</div>
+	</div>
+
+	<p class="copyright bg-[#2e2e3d] w-full text-center"></p>
+</footer>
+<script>
+	// Set current year dynamically if using plain HTML
+	document.querySelector(".copyright").innerHTML = "&copy; " + new Date().getFullYear() + " MedMind. All rights reserved.";
+</script>

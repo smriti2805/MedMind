@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% block title %} Find a Doctor - MedMind {% endblock %}
+
+{% block head %}
+<!-- Leaflet.js CSS for map styling -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+  integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+
+<!-- Leaflet.js JavaScript -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+  integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+{% endblock %}
+
+{% block content %}
+<div class="bg-gray-100 font-sans py-12 px-4">
+  <!-- Increased max-width for a wider layout -->
+  <div class="container mx-auto max-w-7xl">
+    <div class="bg-white rounded-2xl shadow-lg overflow-hidden">
+
+      <!-- Header and Search Bar -->
+      <div class="p-6 border-b border-gray-200">
+        <h1 class="text-3xl font-bold text-gray-800 mb-2">Find a Doctor Right Away</h1>
+        <p class="text-gray-500 mb-6">Search for nearby doctors, hospitals, and clinics.</p>
+        <div class="flex flex-col sm:flex-row gap-2">
+          <input type="text" id="search-input" placeholder="e.g., Apollo Hospital, Ludhiana"
+            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none transition">
+          <button id="search-btn"
+            class="bg-blue-600 text-white font-bold py-3 px-6 rounded-lg hover:bg-blue-700 transition-colors">Search</button>
+        </div>
+
+        <div class="relative flex py-4 items-center">
+          <div class="flex-grow border-t border-gray-300"></div>
+          <span class="flex-shrink mx-4 text-gray-500">OR</span>
+          <div class="flex-grow border-t border-gray-300"></div>
+        </div>
+
+        <button id="current-location-btn"
+          class="w-full flex items-center justify-center gap-2 bg-green-600 text-white font-bold py-3 px-6 rounded-lg hover:bg-green-700 transition-colors">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd"
+              d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z"
+              clip-rule="evenodd" />
+          </svg>
+          Use My Current Location
+        </button>
+      </div>
+
+      <!-- Map and Results Section -->
+      <!-- Increased height from h-[500px] to h-[600px] -->
+      <div class="grid grid-cols-1 md:grid-cols-2">
+        <div id="map" class="w-full h-[600px] md:border-r border-gray-200"></div>
+        <div id="results-list" class="p-6 overflow-y-auto h-[600px]">
+          <p class="text-gray-500">Search results will appear here.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/mapSearch.js') }}"></script>
+{% endblock %}

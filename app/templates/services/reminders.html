@@ -1,0 +1,52 @@
+{% extends "base.html" %} {% block title %} Your Reminders - MedMind {% endblock %} {% block content %}
+<div class="min-h-screen bg-gray-50 py-12 px-4">
+	<div class="max-w-4xl mx-auto">
+		<div class="flex justify-between items-center mb-8">
+			<h1 class="text-3xl font-bold text-gray-800">Your Medicine Reminders</h1>
+			<!-- This button will open the modal for adding a new reminder -->
+			<button id="add-reminder-btn" class="rounded-md bg-blue-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-blue-700 transition-colors">
+				+ Add New Reminder
+			</button>
+		</div>
+
+		<div id="reminders-list-container" class="bg-white p-6 rounded-2xl shadow-lg">
+			{% if reminders %}
+			<ul class="divide-y divide-gray-200">
+				{% for reminder in reminders %}
+				<li class="py-4 flex items-center justify-between">
+					<div>
+						<p class="text-lg font-semibold text-gray-800">{{ reminder.medicine_name }}</p>
+						<p class="text-gray-500">Scheduled for: {{ reminder.notification_time.strftime('%I:%M %p') }}</p>
+					</div>
+					<div class="flex items-center gap-4">
+						<!-- This button will open the modal for editing -->
+						<button class="edit-btn text-blue-600 hover:underline font-medium" data-id="{{ reminder.id }}">Edit</button>
+						<button type="submit" class="dlt-btn text-red-600 hover:underline font-medium" data-id="{{ reminder.id }}">Delete</button>
+					</div>
+				</li>
+				{% endfor %}
+			</ul>
+			{% else %}
+			<div class="text-center py-8">
+				<p class="text-gray-600">You haven't set any reminders yet.</p>
+			</div>
+			{% endif %}
+		</div>
+	</div>
+</div>
+
+<!-- === MODAL POPUP === -->
+<!-- Hidden by default, shown with JavaScript -->
+<div id="reminder-modal" class="fixed inset-0 z-50 hidden items-center justify-center">
+	<!-- Backdrop -->
+	<div id="modal-backdrop" class="absolute inset-0 bg-black/50"></div>
+
+	<!-- Modal Content -->
+	<div id="modal-content" class="relative z-10 w-full max-w-md bg-white p-8 rounded-2xl shadow-lg">
+		<!-- The form will be loaded here by JavaScript -->
+	</div>
+</div>
+{% endblock %} {% block scripts %}
+<!-- Link the new JavaScript for this page -->
+<script src="{{ url_for('static', filename='js/reminders.js') }}" type="module"></script>
+{% endblock %}

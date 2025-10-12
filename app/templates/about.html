@@ -1,0 +1,44 @@
+{% extends "base.html" %} {% block title %} About - MedMind {% endblock %} {% block head %}
+{% endblock %} {% block content %}
+<section class="bg-gray-100 py-12">
+	<div class="max-w-7xl mx-auto px-4 flex flex-col md:flex-row items-center gap-8">
+		<!-- Text Content (Left Side) -->
+		<div class="md:w-1/2 text-center md:text-left">
+			<h1 class="text-4xl font-extrabold text-gray-800 mb-4">About MedMind</h1>
+			<p class="text-lg text-gray-600">Innovation for a Healthier Tomorrow.</p>
+			<p>MedMind is an AI-powered Health Assistant providing reliable health information, symptom analysis, and compassionate medical guidance.</p>
+		</div>
+
+		<div class="md:w-1/2">
+			<img src="{{ url_for('static', filename='images/9.png') }}" alt="MedMind Team" class="w-full rounded-lg shadow-md" />
+		</div>
+	</div>
+
+	<div class="max-w-7xl mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-8 mt-12">
+		<!-- Mission Card -->
+		<div class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition duration-300 hover:-translate-y-8">
+			<h2 class="text-2xl font-semibold mb-4 text-gray-800">Our Mission</h2>
+			<p class="text-gray-700">
+				MedMind is an AI-powered Health Assistant designed for quick and reliable health information, symptom analysis, and to offer accessible medical technology.
+			</p>
+		</div>
+
+		<!-- Vision Card -->
+		<div class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition duration-300 hover:-translate-y-8">
+			<h2 class="text-2xl font-semibold mb-4 text-gray-800">Our Vision</h2>
+			<p class="text-gray-700">To be the leading AI healthcare platform, bridging the gap between cutting-edge technology and compassionate medical guidance.</p>
+		</div>
+
+		<!-- Values Card -->
+		<div class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition duration-300 hover:-translate-y-8">
+			<h2 class="text-2xl font-semibold mb-4 text-gray-800">Our Values</h2>
+			<ul class="list-disc list-inside text-gray-700 space-y-2">
+				<li><span class="font-medium">Data-Driven</span></li>
+				<li><span class="font-medium">Collaborative</span></li>
+				<li><span class="font-medium">Innovative</span></li>
+				<li><span class="font-medium">Empathetic</span></li>
+			</ul>
+		</div>
+	</div>
+</section>
+{% endblock %}
