@@ -33,7 +33,7 @@
 {% endblock %} {% block scripts %}
 <script>
 	const closeIcon = `{{ icons.icon("close", size="8px")}}`;
-	const API_ENDPOINT = "{{ url_for('analyze_reports_proxy') }}";
+	const API_ENDPOINT = "{{ url_for('api.analyze_reports_proxy') }}";
 </script>
 <script type="module" src="{{ url_for('static', filename='js/labReportAnalysis.js') }}"></script>
 {% endblock %}
