@@ -20,6 +20,7 @@ class Config:
     # SCHEDULER_API_ENABLED = True
 
     UPLOAD_FOLDER = os.path.join(basedir, "profile_pics")
+    BLOG_IMAGE_FOLDER = os.path.join(basedir, "blogs_images")
     os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
     # --- VAPID KEYS FOR PUSH NOTIFICATIONS ---

@@ -1,5 +1,7 @@
 import os
 from flask import Blueprint, make_response, render_template, current_app, request, jsonify, send_from_directory
+
+from app.utils import read_blogs
 from ..static_data import homepage_cards, service_cards
 
 main_bp = Blueprint("main", __name__)
@@ -21,11 +23,16 @@ def home():
     slides = [{"file": f"carousel-images/{file}", "caption": captions[i] if i < len(captions) else ""} for i, file in enumerate(image_files)]
     return render_template("home.html", homepage_cards=homepage_cards, slides=slides)
 
-blog_posts = []
+blog_posts = read_blogs()
 
+
+@main_bp.route("/blog_image/<filename>")
+def blog_image_file(filename):
+    return send_from_directory(current_app.config["BLOG_IMAGE_FOLDER"], filename)
 
 @main_bp.route("/blogs")
 def blogs():
+    blog_posts = read_blogs()
     return render_template("blogs.html", blog_posts=blog_posts)
 
 

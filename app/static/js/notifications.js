@@ -37,6 +37,7 @@ async function subscribeUserToPush(registration) {
 		console.log("Subscribing user to push notifications...");
 		try {
 			const applicationServerKey = await getVapidPublicKey();
+			console.log("Fetched VAPID public key:", applicationServerKey);
 			if (!applicationServerKey) return;
 
 			subscription = await registration.pushManager.subscribe({

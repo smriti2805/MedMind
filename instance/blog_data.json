@@ -1,0 +1,38 @@
+[
+    {
+        "id": 1,
+        "title": "Understanding Digital Health Assistants",
+        "excerpt": "Digital health tools are changing the way we manage our well-being. Learn how MedMind can be your personal health companion...",
+        "date": "Oct 10, 2025",
+        "readTime": "5 min read",
+        "imageUrl": "1.png",
+        "link": "post-1.html",
+        "category": "Technology",
+        "author": "Jane Doe",
+        "summary": "An introduction to digital health assistants and their benefits in modern healthcare."
+    },
+    {
+        "id": 2,
+        "title": "The Role of AI in Personalized Care",
+        "excerpt": "Artificial Intelligence is key to tailoring medical advice. Discover the algorithms that power personalized health recommendations...",
+        "date": "Sep 28, 2025",
+        "readTime": "7 min read",
+        "imageUrl": "2.png",
+        "link": "post-2.html",
+        "category": "Wellness",
+        "author": "John Smith",
+        "summary": "Exploring how AI technologies are used to provide personalized healthcare solutions."
+    },
+    {
+        "id": 3,
+        "title": "5 Tips for Managing Stress with MedMind",
+        "excerpt": "Simple, actionable steps you can take today to reduce stress and improve your mental clarity using our assistant's features...",
+        "date": "Sep 15, 2025",
+        "readTime": "4 min read",
+        "imageUrl": "3.png",
+        "link": "post-3.html",
+        "category": "Wellness",
+        "author": "Emily Johnson",
+        "summary": "Practical advice on using MedMind to help manage stress and enhance mental well-being."
+    }
+]
